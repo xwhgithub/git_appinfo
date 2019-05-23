@@ -2,7 +2,11 @@ package cn.xwh.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
+/**
+ * 版本信息类
+ * @author xwh
+ *
+ */
 public class AppVersion {
 	private Integer id;//主键id
 	private Integer appId;//appId

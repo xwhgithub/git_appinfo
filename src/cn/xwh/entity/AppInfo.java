@@ -2,7 +2,11 @@ package cn.xwh.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
+/**
+ * app类
+ * @author xwh
+ *
+ */
 public class AppInfo {
 	private Integer id;//主键id
 	private String softwareName;//软件名称

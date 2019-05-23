@@ -2,6 +2,11 @@ package cn.xwh.entity;
 
 import java.util.Date;
 
+/**
+ * 类型实体类
+ * @author xwh
+ *
+ */
 public class AppCategory {
 	private Integer id;//主键id
 	private String categoryCode;//分类编码

@@ -1,7 +1,11 @@
 package cn.xwh.entity;
 
 import java.util.Date;
-
+/**
+ * 状态实体类
+ * @author xwh
+ *
+ */
 public class DataDictionary {
 	private Integer id;//主键id
 	private String typeCode;//类型编码

@@ -13,7 +13,7 @@
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
-				<form method="post" action="list">
+				<form method="post" action="${pageContext.request.contextPath }/dev/flatform/app/list">
 					<input type="hidden" name="pageIndex" value="1" />
 			    <ul>
 					<li>

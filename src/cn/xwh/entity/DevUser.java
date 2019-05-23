@@ -1,7 +1,11 @@
 package cn.xwh.entity;
 
 import java.util.Date;
-
+/**
+ * 前台实体类
+ * @author xwh
+ *
+ */
 public class DevUser {
 	private Integer id;//主键id
 	private String devCode;//开发者帐号(系统登录账号)

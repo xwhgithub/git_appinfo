@@ -23,7 +23,6 @@
     <!-- Custom Theme Style -->
     <link href="${pageContext.request.contextPath }/statics/css/custom.min.css" rel="stylesheet">
   </head>
-
   <body class="login">
     <div class="login_wrapper">
       <h1>APP信息管理平台</h1>

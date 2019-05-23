@@ -1,7 +1,11 @@
 package cn.xwh.entity;
 
 import java.util.Date;
-
+/**
+ * 后台用户类
+ * @author xwh
+ *
+ */
 public class BackendUser {
 	private Integer id;//主键id
 	private String userCode;//用户编码（登录账号）
