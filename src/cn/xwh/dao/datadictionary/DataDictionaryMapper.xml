@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwh.dao.datadictionary.DataDictionaryMapper">
+	
+	<!-- 根据状态编码获取状态集合 -->
+	<select id="getDataDictionaryList" resultType="DataDictionary">
+		select * from `data_dictionary` where 1=1
+		<if test="typeCode != null and typeCode !=''">
+		 and `typeCode`=#{typeCode}
+		</if>
+	</select>
+	
+</mapper>
