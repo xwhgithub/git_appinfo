@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+	>
+		<!-- 引入properties文件 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:database.properties</value>
+		</property>
+	</bean>
+	
+<!-- 	配置数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${driver}"/>
+		<property name="url" value="${url}"/>
+		<!-- 	<value><![CDATA[jdbc:mysql://127.0.0.1:3306/smbms?characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull]]></value>
+		</property> -->
+		<property name="username" value="${user}"/>
+		<property name="password" value="${password}"/>
+		
+		
+		<property name="minIdle" value="${minIdle}"/>
+		<property name="maxIdle" value="${maxIdle}"/>
+		<property name="initialSize" value="${initialSize}"/>
+		<property name="maxActive" value="${maxActive}"/>
+		<property name="maxWait" value="${maxWait}"/>
+		<property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}"/>
+		<property name="removeAbandoned" value="${removeAbandoned}"/>
+		
+		<!-- sql 心跳 -->
+			<property name= "testWhileIdle" value="true"/>
+			<property name= "testOnBorrow" value="false"/>
+			<property name= "testOnReturn" value="false"/>
+			<property name= "validationQuery" value="select 1"/>
+			<property name= "timeBetweenEvictionRunsMillis" value="60000"/>
+			<property name= "numTestsPerEvictionRun" value="${maxActive}"/>
+	</bean>
+	
+	
+	<!-- 引用tomcat数据源 -->
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>java:comp/env/jdbc/smbms</value>
+		</property>
+	</bean> -->
+	
+	<!--  定义事务管理器 -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 注入数据源 -->
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<aop:aspectj-autoproxy/>
+	<aop:config proxy-target-class="true">
+		<aop:pointcut expression="execution(* *cn.xwh.service..*(..))" id="transService"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="transService"/>
+	</aop:config>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="smbms *" propagation="REQUIRED" rollback-for="Exception"/>
+			</tx:attributes>
+	</tx:advice>
+	
+	
+	<!-- 配置SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<!-- 引用数据源组件 --> 
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 引用mybatis配置文件中的配置 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+	<!-- 	配置映射文件信息 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:cn/xwh/dao/**/*.xml</value>
+			</list>
+		</property>
+	</bean>
+	 
+	
+	<!-- 使用MapperScannerConfigurer注入映射器 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.xwh.dao"/>
+	</bean>
+	
+	
+	
+	
+	<!-- 增强类bean -->
+	<!-- <bean class="com.xwh.aop.UserServiceLogger"/> -->
+	<!-- 注解注入 -->
+<!-- 	定义事务管理器 -->
+	<!-- <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		注入数据源
+		<property name="dataSource" ref="dataSource"/>
+	</bean> -->
+	
+	<!-- 注解声明事务处理 -->
+<!-- 	<tx:annotation-driven transaction-manager="txManager"/> -->
+	
+	
+	<!-- 第九章 -->
+	<!-- 使用注解实现控制器 -->
+	<context:component-scan base-package="cn.xwh.service,cn.xwh.dao,cn.xwh.controller"/>
+	
+</beans>
+
+
+
