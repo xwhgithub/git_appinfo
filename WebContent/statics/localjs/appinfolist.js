@@ -65,13 +65,14 @@ $(".addVersion").on("click",function(){
 });
 $(".modifyVersion").on("click",function(){
 	var obj = $(this);
-	var status = obj.attr("status");
-	var versionid = obj.attr("versionid");
-	var appinfoid = obj.attr("appinfoid");
+	var status = obj.attr("status")	//获得状态;
+	var versionid = obj.attr("versionid");	//获得版本id
+	var appinfoid = obj.attr("appinfoid");	//获得app对象id
 	if(status == "1" || status == "3"){//待审核、审核未通过状态下才可以进行修改操作
-		if(versionid == null || versionid == ""){
+		if(versionid == null || versionid == ""){//是否有版本信息
 			alert("该APP应用无版本信息，请先增加版本信息！");
 		}else{
+			//发送请求 获得修改版本页面
 			window.location.href="appversionmodify?vid="+ versionid + "&aid="+ appinfoid;
 		}
 	}else{
@@ -89,11 +90,11 @@ $(".modifyAppInfo").on("click",function(){
 });
 
 $(document).on("click",".saleSwichOpen,.saleSwichClose",function(){
-	var obj = $(this);
-	var appinfoid = obj.attr("appinfoid");
-	var saleSwitch = obj.attr("saleSwitch");
+	var obj = $(this);	//当前app
+	var appinfoid = obj.attr("appinfoid");	//app的id
+	var saleSwitch = obj.attr("saleSwitch");	//标记上架还是下架
 	if("open" === saleSwitch){
-		saleSwitchAjax(appinfoid,obj);
+		saleSwitchAjax(appinfoid,obj);	//参数app编号,当前元素
 	}else if("close" === saleSwitch){
 		if(confirm("你确定要下架您的APP应用【"+obj.attr("appsoftwarename")+"】吗？")){
 			saleSwitchAjax(appinfoid,obj);
@@ -101,10 +102,10 @@ $(document).on("click",".saleSwichOpen,.saleSwichClose",function(){
 	}
 });
 
-var saleSwitchAjax = function(appId,obj){
+var saleSwitchAjax = function(appid,obj){
 	$.ajax({
-		type:"PUT",
-		url:appId+"/sale.json",
+		type:"GET",
+		url:"sale?appid=" + appid,
 		dataType:"json",
 		success:function(data){
 			/*
@@ -115,7 +116,7 @@ var saleSwitchAjax = function(appId,obj){
 			 */
 			if(data.errorCode === '0'){
 				if(data.resultMsg === "success"){//操作成功
-					if("open" === obj.attr("saleSwitch")){
+					if("open" === obj.attr("saleSwitch")){ //上架成功
 						//alert("恭喜您，【"+obj.attr("appsoftwarename")+"】的【上架】操作成功");
 						$("#appInfoStatus" + obj.attr("appinfoid")).html("已上架");
 						obj.className="saleSwichClose";
@@ -173,7 +174,7 @@ var saleSwitchAjax = function(appId,obj){
 
 $(".viewApp").on("click",function(){
 	var obj = $(this);
-	window.location.href="appview/"+ obj.attr("appinfoid");
+	window.location.href="appview?id="+ obj.attr("appinfoid");
 });
 
 $(".deleteApp").on("click",function(){

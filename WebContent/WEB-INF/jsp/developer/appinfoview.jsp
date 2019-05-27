@@ -107,7 +107,7 @@
 				    	暂无
 				  </c:when> 
 				  <c:otherwise>   
-				    <img src="${appInfo.logoPicPath }?m=1" width="100px;"/> 
+				    <img src="/files/${appInfo.logoPicPath }?m=1" width="100px;"/> 
 				  </c:otherwise> 
               </c:choose> 
             </div>

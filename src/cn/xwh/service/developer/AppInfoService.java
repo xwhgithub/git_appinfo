@@ -62,5 +62,46 @@ public interface AppInfoService {
 	 * 验证APK是否存在
 	 * @return
 	 */
-	public AppInfo getAppInfo(@Param("APKName")String APKName) throws Exception;
+	public AppInfo getAppInfo(@Param("id")Integer id,@Param("APKName")String APKName) throws Exception;
+	
+	
+	/**
+	 * 删除log图片
+	 * @return
+	 */
+	public boolean delLogFile(@Param("id")Integer id);
+	
+	/**
+	 * 修改app
+	 * @param appInfo
+	 * @return
+	 */
+	public boolean appModifySave(AppInfo appInfo) throws Exception;
+	
+	/**
+	 * 修改app版本id
+	 * @param versionId
+	 * @param appId
+	 * @return
+	 * @throws Exception
+	 *//*
+	public int updateVersionId(@Param(value="versionId")Integer versionId,@Param(value="id")Integer appId)throws Exception;*/
+	
+	
+	/**
+	 * 刪除app信息
+	 * @param id app的id
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean delAppById(@Param("id") Integer id)throws Exception;
+
+	
+	/**
+	 * update Sale Status By AppId and Operator
+	 * @param appId
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean appsysUpdateSaleStatusByAppId(AppInfo appInfo) throws Exception;
 }
